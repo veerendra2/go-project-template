@@ -1,2 +1,1 @@
-# go-project-template
-Go Project Template
+# My Go Project Template
