@@ -1,1 +1,1 @@
-# Go Project Template
+# My Go Project Template
