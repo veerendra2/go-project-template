@@ -5,6 +5,19 @@ silent: true
 vars:
   GOPATH_BIN:
     sh: echo "$(go env GOPATH)/bin"
+  BRANCH:
+    sh: git rev-parse --abbrev-ref HEAD
+  BUILDTIME:
+    sh: date '+%Y-%m-%d@%H:%M:%S'
+  BUILDUSER:
+    sh: id -un
+  REVISION:
+    sh: git rev-parse HEAD
+  VERSION:
+    sh: git describe --tags --always
+  MODULE_NAME:
+    sh: go list -m | awk -F/ '{print $NF}'
+  MAIN_FILE_PATH: main.go
 
 env:
   GOBIN: "{{.GOPATH_BIN }}"
@@ -39,6 +52,28 @@ tasks:
       - go test ./...
 
   build:
-    desc: "Builds the application binary"
+    desc: "Build the application binary for the current platform"
+    cmd: |
+      go build -ldflags "\
+        -X github.com/veerendra2/gopackages/version.Version={{.VERSION}} \
+        -X github.com/veerendra2/gopackages/version.Revision={{.REVISION}} \
+        -X github.com/veerendra2/gopackages/version.Branch={{.BRANCH}} \
+        -X github.com/veerendra2/gopackages/version.BuildUser={{.BUILDUSER}} \
+        -X github.com/veerendra2/gopackages/version.BuildDate={{.BUILDTIME}}" \
+        -o {{.MODULE_NAME}} {{.MAIN_FILE_PATH}}
+
+  build-platforms:
+    desc: "Build the application binaries for multiple platforms and architectures"
     cmds:
-      - go build -o my-app main.go
+      - for:
+          matrix:
+            OS: ["linux", "darwin"]
+            ARCH: ["amd64", "arm64"]
+        cmd: |
+          GOOS={{.ITEM.OS}} GOARCH={{.ITEM.ARCH}} go build -ldflags "\
+            -X github.com/veerendra2/gopackages/version.Version={{.VERSION}} \
+            -X github.com/veerendra2/gopackages/version.Revision={{.REVISION}} \
+            -X github.com/veerendra2/gopackages/version.Branch={{.BRANCH}} \
+            -X github.com/veerendra2/gopackages/version.BuildUser={{.BUILDUSER}} \
+            -X github.com/veerendra2/gopackages/version.BuildDate={{.BUILDTIME}}" \
+            -o dist/{{.MODULE_NAME}}-{{.ITEM.OS}}-{{.ITEM.ARCH}} {{.MAIN_FILE_PATH}}
