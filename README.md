@@ -1,6 +1,11 @@
 # My Go Project Template
 
-_*Your app description here..._
+> Other references
+>
+> - https://github.com/thockin/go-build-template/tree/master
+> - https://peter.bourgon.org/go-best-practices-2016/
+
+_\*Your app description here..._
 
 ## Build & Test
 
