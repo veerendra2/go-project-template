@@ -2,7 +2,6 @@ package main
 
 import (
 	"log/slog"
-	"os"
 
 	"github.com/alecthomas/kong"
 	"github.com/veerendra2/gopackages/slogger"
@@ -22,7 +21,7 @@ func main() {
 
 	if cli.Version {
 		println(version.Version)
-		os.Exit(0)
+		kongCtx.Exit(0)
 	}
 
 	kongCtx.FatalIfErrorf(kongCtx.Error)
