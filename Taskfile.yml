@@ -3,8 +3,9 @@ version: "3"
 silent: true
 
 vars:
-  APP_NAME: myapp
   MAIN_FILE: main.go
+  APP_NAME:
+    sh: grep 'const appName' {{.MAIN_FILE}} | awk -F'"' '{print $2}'
   GOPATH_BIN:
     sh: echo "$(go env GOPATH)/bin"
   BRANCH:
@@ -61,7 +62,7 @@ tasks:
         -X github.com/veerendra2/gopackages/version.Branch={{.BRANCH}} \
         -X github.com/veerendra2/gopackages/version.BuildUser={{.BUILD_USER}} \
         -X github.com/veerendra2/gopackages/version.BuildDate={{.BUILD_TIME}}" \
-        -o {{.APP_NAME}} {{.MAIN_FILE}}
+        -o dist/{{.APP_NAME}} {{.MAIN_FILE}}
 
   build-platforms:
     desc: "Build the application binaries for multiple platforms and architectures"
