@@ -1,5 +1,7 @@
 # My Go Project Template
 
+_*Your app description here..._
+
 ## Build & Test
 
 - Using [Taskfile](https://taskfile.dev/)
@@ -7,7 +9,6 @@
 _Install Taskfile: [Installation Guide](https://taskfile.dev/docs/installation)_
 
 ```bash
-
 # List available tasks
 task --list
 task: Available tasks for this project:
