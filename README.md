@@ -1,5 +1,7 @@
 # My Go Project Template
 
+https://peter.bourgon.org/go-best-practices-2016/
+
 ## Build & Test
 
 - Using [Taskfile](https://taskfile.dev/)
