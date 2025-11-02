@@ -3,21 +3,21 @@ version: "3"
 silent: true
 
 vars:
+  MAIN_FILE: main.go
+  APP_NAME:
+    sh: grep 'const appName' {{.MAIN_FILE}} | awk -F'"' '{print $2}'
   GOPATH_BIN:
     sh: echo "$(go env GOPATH)/bin"
   BRANCH:
     sh: git rev-parse --abbrev-ref HEAD
-  BUILDTIME:
+  BUILD_TIME:
     sh: date '+%Y-%m-%d@%H:%M:%S'
-  BUILDUSER:
+  BUILD_USER:
     sh: id -un
   REVISION:
     sh: git rev-parse HEAD
   VERSION:
     sh: git describe --tags --always
-  MODULE_NAME:
-    sh: go list -m | awk -F/ '{print $NF}'
-  MAIN_FILE_PATH: main.go
 
 env:
   GOBIN: "{{.GOPATH_BIN }}"
@@ -28,7 +28,7 @@ tasks:
     deps:
       - vet
     cmds:
-      - go run main.go
+      - go run {{.MAIN_FILE}}
     env:
       LOG_FORMAT: console
 
@@ -53,17 +53,21 @@ tasks:
 
   build:
     desc: "Build the application binary for the current platform"
+    deps:
+      - vet
     cmd: |
       go build -ldflags "\
         -X github.com/veerendra2/gopackages/version.Version={{.VERSION}} \
         -X github.com/veerendra2/gopackages/version.Revision={{.REVISION}} \
         -X github.com/veerendra2/gopackages/version.Branch={{.BRANCH}} \
-        -X github.com/veerendra2/gopackages/version.BuildUser={{.BUILDUSER}} \
-        -X github.com/veerendra2/gopackages/version.BuildDate={{.BUILDTIME}}" \
-        -o {{.MODULE_NAME}} {{.MAIN_FILE_PATH}}
+        -X github.com/veerendra2/gopackages/version.BuildUser={{.BUILD_USER}} \
+        -X github.com/veerendra2/gopackages/version.BuildDate={{.BUILD_TIME}}" \
+        -o dist/{{.APP_NAME}} {{.MAIN_FILE}}
 
   build-platforms:
     desc: "Build the application binaries for multiple platforms and architectures"
+    deps:
+      - vet
     cmds:
       - for:
           matrix:
@@ -74,6 +78,6 @@ tasks:
             -X github.com/veerendra2/gopackages/version.Version={{.VERSION}} \
             -X github.com/veerendra2/gopackages/version.Revision={{.REVISION}} \
             -X github.com/veerendra2/gopackages/version.Branch={{.BRANCH}} \
-            -X github.com/veerendra2/gopackages/version.BuildUser={{.BUILDUSER}} \
-            -X github.com/veerendra2/gopackages/version.BuildDate={{.BUILDTIME}}" \
-            -o dist/{{.MODULE_NAME}}-{{.ITEM.OS}}-{{.ITEM.ARCH}} {{.MAIN_FILE_PATH}}
+            -X github.com/veerendra2/gopackages/version.BuildUser={{.BUILD_USER}} \
+            -X github.com/veerendra2/gopackages/version.BuildDate={{.BUILD_TIME}}" \
+            -o dist/{{.APP_NAME}}-{{.ITEM.OS}}-{{.ITEM.ARCH}} {{.MAIN_FILE}}

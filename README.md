@@ -1,6 +1,11 @@
 # My Go Project Template
 
-https://peter.bourgon.org/go-best-practices-2016/
+> Other references
+>
+> - https://github.com/thockin/go-build-template/tree/master
+> - https://peter.bourgon.org/go-best-practices-2016/
+
+_\*Your app description here..._
 
 ## Build & Test
 
@@ -9,7 +14,6 @@ https://peter.bourgon.org/go-best-practices-2016/
 _Install Taskfile: [Installation Guide](https://taskfile.dev/docs/installation)_
 
 ```bash
-
 # List available tasks
 task --list
 task: Available tasks for this project:

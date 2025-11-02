@@ -1,13 +1,15 @@
 package main
 
 import (
+	"fmt"
 	"log/slog"
-	"os"
 
 	"github.com/alecthomas/kong"
 	"github.com/veerendra2/gopackages/slogger"
 	"github.com/veerendra2/gopackages/version"
 )
+
+const appName = "my-app"
 
 var cli struct {
 	Log slogger.Config `embed:"" prefix:"log." envprefix:"LOG_"`
@@ -17,12 +19,13 @@ var cli struct {
 
 func main() {
 	kongCtx := kong.Parse(&cli,
+		kong.Name(appName),
 		kong.Description("My app."),
 	)
 
 	if cli.Version {
-		println(version.Version)
-		os.Exit(0)
+		fmt.Println(version.Version)
+		kongCtx.Exit(0)
 	}
 
 	kongCtx.FatalIfErrorf(kongCtx.Error)
