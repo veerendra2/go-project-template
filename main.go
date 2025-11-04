@@ -32,6 +32,6 @@ func main() {
 
 	slog.SetDefault(slogger.New(cli.Log))
 
-	slog.Info("Version information", version.Info())
-	slog.Info("Build context", version.BuildContext())
+	slog.Info("Version information", version.Info()...)
+	slog.Info("Build context", version.BuildContext()...)
 }
