@@ -81,3 +81,28 @@ tasks:
             -X github.com/veerendra2/gopackages/version.BuildUser={{.BUILD_USER}} \
             -X github.com/veerendra2/gopackages/version.BuildDate={{.BUILD_TIME}}" \
             -o dist/{{.APP_NAME}}-{{.ITEM.OS}}-{{.ITEM.ARCH}} {{.MAIN_FILE}}
+
+  build-docker:
+    desc: "Build Docker image"
+    deps:
+      - vet
+    cmds:
+      - docker built -t {{.APP_NAME}} .
+
+  security:
+    desc: "Run security vulnerability scan"
+    cmds:
+      - |
+        if command -v govulncheck >/dev/null 2>&1; then
+          govulncheck ./...
+        else
+          echo "govulncheck not found. Install with: go install golang.org/x/vuln/cmd/govulncheck@latest"
+        fi
+
+  all:
+    desc: "Run comprehensive checks: format, lint, test, and build"
+    cmds:
+      - task fmt
+      - task lint
+      - task test
+      - task build

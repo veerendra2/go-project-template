@@ -5,7 +5,10 @@
 > - https://github.com/thockin/go-build-template/tree/master
 > - https://peter.bourgon.org/go-best-practices-2016/
 
-_\*Your app description here..._
+```bash
+go mod init YOUR_MODULE_NAME
+go mod tidy
+```
 
 ## Build & Test
 
