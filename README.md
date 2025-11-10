@@ -5,10 +5,20 @@
 > - https://github.com/thockin/go-build-template/tree/master
 > - https://peter.bourgon.org/go-best-practices-2016/
 
-```bash
-go mod init YOUR_MODULE_NAME
-go mod tidy
-```
+## TODO
+
+- [ ] Update your app name in:
+  - [ ] [Taskfile.yml](./Taskfile.yml)
+  - [ ] [Dockerfile](./Dockerfile)
+  - [ ] [main.go](./main.go)
+- [ ] Update the `main.go` file location in:
+  - [ ] [Taskfile.yml](./Taskfile.yml)
+  - [ ] [.goreleaser.yml](./.goreleaser.yml)
+- [ ] Initialize your Go module:
+  ```bash
+  go mod init YOUR_MODULE_NAME
+  go mod tidy
+  ```
 
 ## Build & Test
 
