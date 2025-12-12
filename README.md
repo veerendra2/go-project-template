@@ -27,21 +27,20 @@
 _Install Taskfile: [Installation Guide](https://taskfile.dev/docs/installation)_
 
 ```bash
-# List available tasks
+# Available tasks
 task --list
 task: Available tasks for this project:
+* all:                   Run comprehensive checks: format, lint, security and test
 * build:                 Build the application binary for the current platform
+* build-docker:          Build Docker image
 * build-platforms:       Build the application binaries for multiple platforms and architectures
 * fmt:                   Formats all Go source files
+* install:               Install required tools and dependencies
+* lint:                  Run static analysis and code linting using golangci-lint
 * run:                   Runs the main application
+* security:              Run security vulnerability scan
 * test:                  Runs all tests in the project      (aliases: tests)
 * vet:                   Examines Go source code and reports suspicious constructs
-
-# Build the application
-task build
-
-# Run tests
-task test
 ```
 
 - Build with [goreleaser](https://goreleaser.com/)
