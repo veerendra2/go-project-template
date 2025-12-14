@@ -1,4 +1,4 @@
-# My Go Project Template
+# Go Project Template
 
 > Other references
 >
@@ -6,6 +6,8 @@
 > - https://peter.bourgon.org/go-best-practices-2016/
 
 ## Getting Started
+
+Follow below steps after creating a new repository from this template
 
 - [ ] **Initialize Go module:**
 
