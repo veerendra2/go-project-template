@@ -38,10 +38,24 @@ changelog:
     exclude:
       - "^docs:"
       - "^test:"
-
-release:
-  footer: >-
-
-    ---
-
-    Released by [GoReleaser](https://github.com/goreleaser/goreleaser).
+#
+# Uncomment and update below to release as Homebrew Cask
+# homebrew_casks:
+#   - name: YOUR_APP
+#     directory: Casks
+#     homepage: "https://github.com/veerendra2/YOUR_REPO"
+#     description: "YOUR DESCRIPTION"
+#     url:
+#       verified: github.com/veerendra2/YOUR_REPO
+#       template: "https://github.com/veerendra2/YOU_REPO/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
+#     hooks:
+#       post:
+#         install: |
+#           if OS.mac?
+#             system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/YOUR_APP"]
+#           end
+#     repository:
+#       owner: veerendra2
+#       name: homebrew-tap
+#       branch: main
+#       token: "{{ .Env.GITHUB_TOKEN }}"
