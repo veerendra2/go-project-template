@@ -5,20 +5,37 @@
 > - https://github.com/thockin/go-build-template/tree/master
 > - https://peter.bourgon.org/go-best-practices-2016/
 
-## TODO
+## Getting Started
 
-- [ ] Update your app name in:
-  - [ ] [Taskfile.yml](./Taskfile.yml)
-  - [ ] [Dockerfile](./Dockerfile)
-  - [ ] [main.go](./main.go)
-- [ ] Update the `main.go` file location in:
-  - [ ] [Taskfile.yml](./Taskfile.yml)
-  - [ ] [.goreleaser.yml](./.goreleaser.yml)
-- [ ] Initialize your Go module:
+- [ ] **Initialize Go module:**
+
   ```bash
-  go mod init YOUR_MODULE_NAME
+  go mod init github.com/YOUR_USERNAME/YOUR_PROJECT_NAME
   go mod tidy
   ```
+
+- [ ] **Update app name** in:
+
+  - [ ] [Taskfile.yml](./Taskfile.yml) - `APP_NAME` variable
+  - [ ] [Dockerfile](./Dockerfile) - Binary name and labels
+  - [ ] [main.go](./main.go) - `appName` constant
+  - [ ] [.goreleaser.yml](./.goreleaser.yml) - `project_name` and `binary` name
+  - [ ] [README.md](./README.md) - Title and description
+
+- [ ] **Update main file location** (if not using root `main.go`):
+
+  - [ ] [Taskfile.yml](./Taskfile.yml) - `MAIN_FILE` variable
+  - [ ] [.goreleaser.yml](./.goreleaser.yml) - `main` field under `builds`
+
+- [ ] **Configure Homebrew release** (optional):
+
+  > **Note:** GitHub's default `GITHUB_TOKEN` has limited permissions for tap repositories. See [GoReleaser docs](https://goreleaser.com/errors/resource-not-accessible-by-integration/).
+
+  - [ ] Add `RELEASE_TOKEN` in repository secrets and update in [release workflow](./.github/workflows/release.yml)
+  - [ ] Update [release workflow](./.github/workflows/release.yml) to use the new token
+  - [ ] Update [.goreleaser.yml](./.goreleaser.yml) `brews` section with your tap repository details
+
+- [ ] **Clean up:** Delete this checklist and update README with project documentation
 
 ## Build & Test
 
