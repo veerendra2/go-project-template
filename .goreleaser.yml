@@ -43,10 +43,10 @@ changelog:
 # homebrew_casks:
 #   - name: YOUR_APP
 #     directory: Casks
-#     homepage: "https://github.com/veerendra2/YOU_REPO"
+#     homepage: "https://github.com/veerendra2/YOUR_REPO"
 #     description: "YOUR DESCRIPTION"
 #     url:
-#       verified: github.com/veerendra2/YOU_REPO
+#       verified: github.com/veerendra2/YOUR_REPO
 #       template: "https://github.com/veerendra2/cold2warm/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
 #     hooks:
 #       post:
