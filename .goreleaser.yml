@@ -47,7 +47,7 @@ changelog:
 #     description: "YOUR DESCRIPTION"
 #     url:
 #       verified: github.com/veerendra2/YOUR_REPO
-#       template: "https://github.com/veerendra2/cold2warm/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
+#       template: "https://github.com/veerendra2/YOU_REPO/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
 #     hooks:
 #       post:
 #         install: |
