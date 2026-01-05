@@ -11,13 +11,21 @@ import (
 const appName = "my-app"
 
 var cli struct {
-	Log slogger.Config `embed:"" prefix:"log." envprefix:"LOG_"`
+	Log     slogger.Config   `embed:"" prefix:"log." envprefix:"LOG_"`
+	Version kong.VersionFlag `name:"version" help:"Print version information and exit"`
 }
 
 func main() {
 	kongCtx := kong.Parse(&cli,
 		kong.Name(appName),
 		kong.Description("My app."),
+		kong.UsageOnError(),
+		kong.ConfigureHelp(kong.HelpOptions{
+			Compact: true,
+		}),
+		kong.Vars{
+			"version": version.Version,
+		},
 	)
 
 	kongCtx.FatalIfErrorf(kongCtx.Error)
