@@ -19,8 +19,24 @@ builds:
       - "-X github.com/veerendra2/gopackages/version.Version={{.Version}}"
       - "-X github.com/veerendra2/gopackages/version.Revision={{.ShortCommit}}"
       - "-X github.com/veerendra2/gopackages/version.Branch={{.Branch}}"
-      - "-X github.com/veerendra2/gopackages/version.BuildUser={{.Env.USER}}"
+      - "-X github.com/veerendra2/gopackages/version.BuildUser={{envOrDefault 'USER' 'ci'}}"
       - "-X github.com/veerendra2/gopackages/version.BuildDate={{.Date}}"
+
+# Uncomment below to use ko to build distroless image
+# kos:
+#   - id: distroless-image
+#     build: binaries
+#     repositories:
+#       - ghcr.io/veerendra2/YOUR_REPO_NAME
+#     tags:
+#       - "{{.Version}}"
+#       - latest
+#     bare: true
+#     preserve_import_paths: false
+#     platforms:
+#       - linux/amd64
+#       - linux/arm64
+#     base_image: gcr.io/distroless/static:nonroot
 
 archives:
   - formats: ["zip"]
