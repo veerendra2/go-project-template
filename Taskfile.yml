@@ -29,7 +29,7 @@ tasks:
       APP:
         sh: basename "$PWD"
       MODULE:
-        sh: git remote get-url origin 2>/dev/null | sed -E 's#(git@|https://)([^:/]+)[:/]#\2/#; s#\.git$##'
+        sh: git remote get-url origin 2>/dev/null | sed -E 's#^(ssh://|https://|http://|git://)##; s#^[^@/]+@##; s#^([^/:]+):[0-9]+/#\1/#; s#^([^/:]+)[:/]#\1/#; s#\.git$##'
     cmds:
       - |
         [ -n "{{.MODULE}}" ] || { echo "no git remote; run: task init MODULE=github.com/you/repo"; exit 1; }
