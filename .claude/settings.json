@@ -21,6 +21,7 @@
       "Bash(docker images:*)",
       "Bash(git:*)",
       "Bash(gh:*)",
+      "Bash(rtk:*)",
       "Bash(ls:*)",
       "Bash(cat:*)",
       "Bash(grep:*)",
@@ -44,6 +45,7 @@
       "WebSearch"
     ],
     "ask": [
+      "Bash(rtk proxy:*)",
       "Bash(docker push:*)",
       "Bash(curl:*)",
       "Bash(sudo:*)"
