@@ -1,73 +1,49 @@
 # Go Project Template
 
-> Other references
->
-> - https://github.com/thockin/go-build-template/tree/master
-> - https://peter.bourgon.org/go-best-practices-2016/
+Go CLI starter: [Task](https://taskfile.dev/) for the dev loop, [GoReleaser](https://goreleaser.com/) for releases, Docker, and Claude Code permissions.
 
-## Getting Started
+## Start a new repo
 
-Follow below steps after creating a new repository from this template
+```bash
+# 1. Create the repo from this template, clone it, then:
+task init
 
-- [ ] **Initialize Go module:**
+# 2. Check it builds
+task all
+```
 
-  ```bash
-  go mod init github.com/YOUR_USERNAME/YOUR_PROJECT_NAME
-  go mod tidy
-  ```
+`task init` renames every `my-app` placeholder to the repo directory name and runs `go mod init` with the module path from your git remote. Override either:
 
-- [ ] **Update app name** in:
+```bash
+task init APP=foo MODULE=github.com/you/foo
+```
 
-  - [ ] [Taskfile.yml](./Taskfile.yml) - `APP_NAME` variable
-  - [ ] [Dockerfile](./Dockerfile) - Binary name and labels
-  - [ ] [main.go](./main.go) - `appName` constant
-  - [ ] [.goreleaser.yml](./.goreleaser.yml) - `project_name` and `binary` name
-  - [ ] [README.md](./README.md) - Title and description
+| Placeholder | Files |
+|-------------|-------|
+| `my-app` | `Taskfile.yml`, `Dockerfile`, `main.go`, `README.md` |
+| `/path/to/main.go` | `Taskfile.yml` (`MAIN_FILE`), `.goreleaser.yml` (`main`) — only if you move `main.go` |
 
-- [ ] **Update main file location** (if not using root `main.go`):
-
-  - [ ] [Taskfile.yml](./Taskfile.yml) - `MAIN_FILE` variable
-  - [ ] [.goreleaser.yml](./.goreleaser.yml) - `main` field under `builds`
-
-- [ ] **Configure Homebrew release** (optional):
-
-  > **Note:** GitHub's default `GITHUB_TOKEN` has limited permissions for tap repositories. See [GoReleaser docs](https://goreleaser.com/errors/resource-not-accessible-by-integration/).
-
-  - [ ] Add `RELEASE_TOKEN` in repository secrets and update in [release workflow](./.github/workflows/release.yml)
-  - [ ] Update [release workflow](./.github/workflows/release.yml) to use the new token
-  - [ ] Update [.goreleaser.yml](./.goreleaser.yml) `brews` section with your tap repository details
-
-- [ ] **Clean up:** Delete this checklist and update README with project documentation
+Then delete this section and write your project's docs. The `init` task is safe to leave in place.
 
 ## Build & Test
 
-- Using [Taskfile](https://taskfile.dev/)
-
-_Install Taskfile: [Installation Guide](https://taskfile.dev/docs/installation)_
+Install [Task](https://taskfile.dev/installation) and run `task --list`.
 
 ```bash
-# Available tasks
-task --list
-task: Available tasks for this project:
-* all:                   Run comprehensive checks: format, lint, security and test
-* build:                 Build the application binary for the current platform
-* build-docker:          Build Docker image
-* build-platforms:       Build the application binaries for multiple platforms and architectures
-* fmt:                   Formats all Go source files
-* install:               Install required tools and dependencies
-* lint:                  Run static analysis and code linting using golangci-lint
-* run:                   Runs the main application
-* security:              Run security vulnerability scan
-* test:                  Runs all tests in the project      (aliases: tests)
-* vet:                   Examines Go source code and reports suspicious constructs
+task all       # fmt, lint, vet, security, test
+task run
+task build     # -> dist/my-app
+task build-docker
 ```
 
-- Build with [goreleaser](https://goreleaser.com/)
-
-_Install GoReleaser: [Installation Guide](https://goreleaser.com/install/)_
+Release locally with [GoReleaser](https://goreleaser.com/install/):
 
 ```bash
-# Build locally
 goreleaser release --snapshot --clean
-...
 ```
+
+## Optional
+
+- **Homebrew cask:** uncomment `homebrew_casks` in `.goreleaser.yml`. The default `GITHUB_TOKEN` can't push to a separate tap repo — add a `RELEASE_TOKEN` secret and use it in `.github/workflows/release.yml`. See [GoReleaser docs](https://goreleaser.com/errors/resource-not-accessible-by-integration/).
+- **Distroless image via `ko`:** uncomment the `kos` block in `.goreleaser.yml`.
+- **Docker publishing:** `.github/workflows/release.yml` pushes `ghcr.io/<owner>/<repo>` on tag.

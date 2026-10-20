@@ -31,4 +31,7 @@ go.work.sum
 # .idea/
 # .vscode/
 
+# Claude Code personal overrides
+.claude/settings.local.json
+
 dist

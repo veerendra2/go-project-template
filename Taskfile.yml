@@ -3,8 +3,8 @@ version: "3"
 silent: true
 
 vars:
-  MAIN_FILE: /path/to/main.go
-  APP_NAME: your-app-name
+  MAIN_FILE: main.go
+  APP_NAME: my-app
   GOPATH_BIN:
     sh: echo "$(go env GOPATH)/bin"
   BRANCH:
@@ -23,6 +23,23 @@ env:
   CGO_ENABLED: 0
 
 tasks:
+  init:
+    desc: "Rename placeholders to APP and initialize the Go module (MODULE defaults to the git remote)"
+    vars:
+      APP:
+        sh: basename "$PWD"
+      MODULE:
+        sh: git remote get-url origin 2>/dev/null | sed -E 's#(git@|https://)([^:/]+)[:/]#\2/#; s#\.git$##'
+    cmds:
+      - |
+        [ -n "{{.MODULE}}" ] || { echo "no git remote; run: task init MODULE=github.com/you/repo"; exit 1; }
+        for f in Taskfile.yml Dockerfile main.go README.md; do
+          sed "s/{{.APP_NAME}}/{{.APP}}/g" "$f" > "$f.tmp" && mv "$f.tmp" "$f"
+        done
+        go mod init "{{.MODULE}}"
+        go mod tidy
+        echo "Initialized {{.MODULE}} as {{.APP}}. Next: task all"
+
   run:
     desc: "Runs the main application"
     deps:
