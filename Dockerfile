@@ -9,11 +9,11 @@ RUN /app/bin/task build
 FROM alpine:3.23.4
 RUN apk update && apk add --no-cache ca-certificates
 WORKDIR /
-COPY --from=BUILDER /app/dist/your-app-name .
+COPY --from=BUILDER /app/dist/my-app .
 USER nobody
-ENTRYPOINT ["/your-app-name"]
+ENTRYPOINT ["/my-app"]
 
 # FROM gcr.io/distroless/static-debian13
 # WORKDIR /
-# COPY --from=BUILDER /app/dist/your-app-name .
-# ENTRYPOINT ["/your-app-name"]
+# COPY --from=BUILDER /app/dist/my-app .
+# ENTRYPOINT ["/my-app"]
